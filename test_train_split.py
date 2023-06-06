@@ -12,7 +12,7 @@ import random
 import os
 
 # Define paths to image folders
-image_path = '/content/images/all/images'
+image_path = '/content/images/all'
 train_path = '/content/images/train'
 val_path = '/content/images/validation'
 test_path = '/content/images/test'
@@ -39,19 +39,23 @@ print('Images moving to validation: %d' % val_num)
 print('Images moving to test: %d' % test_num)
 
 # Select 80% of files randomly and move them to train folder
-move_me = random.choice(file_list)
-fn = move_me.name
-base_fn = move_me.stem
-parent_path = move_me.parent
-xml_fn = base_fn + '.xml'
-os.rename(move_me, train_path+'/'+fn)
-os.rename(os.path.join(parent_path,xml_fn),os.path.join(train_path,xml_fn))
-file_list.remove(move_me)
-
+for i in range(train_num):
+    move_me = random.choice(file_list)
+    print(move_me)
+    fn = move_me.name
+    base_fn = move_me.stem
+    parent_path = move_me.parent
+    xml_fn = base_fn + '.xml'
+    os.rename(move_me, train_path+'/'+fn)
+    os.rename(os.path.join(parent_path,xml_fn),os.path.join(train_path,xml_fn))
+    print(len(file_list))
+    file_list.remove(move_me)
+    print(len(file_list))
+    
 # Select 10% of remaining files and move them to validation folder
-
 for i in range(val_num):
     move_me = random.choice(file_list)
+    print(move.me)
     fn = move_me.name
     base_fn = move_me.stem
     parent_path = move_me.parent
@@ -59,7 +63,6 @@ for i in range(val_num):
     os.rename(move_me, val_path+'/'+fn)
     os.rename(os.path.join(parent_path,xml_fn),os.path.join(val_path,xml_fn))
     file_list.remove(move_me)
-
 
 # Move remaining files to test folder
 for i in range(test_num):
