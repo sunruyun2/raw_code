@@ -39,40 +39,35 @@ print('Images moving to validation: %d' % val_num)
 print('Images moving to test: %d' % test_num)
 
 # Select 80% of files randomly and move them to train folder
-for i in range(train_num):
+move_me = random.choice(file_list)
+fn = move_me.name
+base_fn = move_me.stem
+parent_path = move_me.parent
+xml_fn = base_fn + '.xml'
+os.rename(move_me, train_path+'/'+fn)
+os.rename(os.path.join(parent_path,xml_fn),os.path.join(train_path,xml_fn))
+file_list.remove(move_me)
+
+# Select 10% of remaining files and move them to validation folder
+
+for i in range(val_num):
     move_me = random.choice(file_list)
     fn = move_me.name
     base_fn = move_me.stem
     parent_path = move_me.parent
     xml_fn = base_fn + '.xml'
-    os.rename(move_me, train_path+'/'+fn)
-    os.rename(os.path.join(parent_path,xml_fn),os.path.join(train_path,xml_fn))
+    os.rename(move_me, val_path+'/'+fn)
+    os.rename(os.path.join(parent_path,xml_fn),os.path.join(val_path,xml_fn))
     file_list.remove(move_me)
 
-# Select 10% of remaining files and move them to validation folder
-if len(file_list) >= val_num:
-    for i in range(val_num):
-        move_me = random.choice(file_list)
-        fn = move_me.name
-        base_fn = move_me.stem
-        parent_path = move_me.parent
-        xml_fn = base_fn + '.xml'
-        os.rename(move_me, val_path+'/'+fn)
-        os.rename(os.path.join(parent_path,xml_fn),os.path.join(val_path,xml_fn))
-        file_list.remove(move_me)
-else:
-    print("Not enough files for validation set")
 
 # Move remaining files to test folder
-if len(file_list) >= test_num:
-    for i in range(test_num):
-        move_me = random.choice(file_list)
-        fn = move_me.name
-        base_fn = move_me.stem
-        parent_path = move_me.parent
-        xml_fn = base_fn + '.xml'
-        os.rename(move_me, test_path+'/'+fn)
-        os.rename(os.path.join(parent_path,xml_fn),os.path.join(test_path,xml_fn))
-        file_list.remove(move_me)
-else:
-    print("Not enough files for test set")
+for i in range(test_num):
+    move_me = random.choice(file_list)
+    fn = move_me.name
+    base_fn = move_me.stem
+    parent_path = move_me.parent
+    xml_fn = base_fn + '.xml'
+    os.rename(move_me, test_path+'/'+fn)
+    os.rename(os.path.join(parent_path,xml_fn),os.path.join(test_path,xml_fn))
+    file_list.remove(move_me)
